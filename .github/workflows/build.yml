@@ -3,6 +3,9 @@ name: build-libtorrent-ios
 on:
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: macos-14
@@ -76,7 +79,7 @@ jobs:
             exit $RC
           fi
 
-          LIB=$(find lt-build -name "libtorrent-rasterbar.a" | head -1)
+          LIB=$(find "$ROOT/work/lt-build" -name "libtorrent-rasterbar.a" | head -1)
           if [ -z "$LIB" ]; then echo "!! 没找到 libtorrent-rasterbar.a"; find lt-build -name "*.a"; exit 1; fi
           echo "==> 产物: $LIB"
           lipo -info "$LIB"
