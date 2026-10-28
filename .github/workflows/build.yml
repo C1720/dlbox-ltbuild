@@ -65,7 +65,16 @@ jobs:
             -DOPENSSL_USE_STATIC_LIBS=ON
 
           echo "==> 编译 libtorrent"
-          cmake --build lt-build --config Release -- -j"$NCPU" 2>&1 | tail -60
+          set +e
+          cmake --build lt-build --config Release --parallel "$NCPU" > /tmp/ltbuild.log 2>&1
+          RC=$?
+          set -e
+          tail -20 /tmp/ltbuild.log
+          if [ $RC -ne 0 ]; then
+            echo "===== 构建失败，最后 80 行 ====="
+            tail -80 /tmp/ltbuild.log
+            exit $RC
+          fi
 
           LIB=$(find lt-build -name "libtorrent-rasterbar.a" | head -1)
           if [ -z "$LIB" ]; then echo "!! 没找到 libtorrent-rasterbar.a"; find lt-build -name "*.a"; exit 1; fi
