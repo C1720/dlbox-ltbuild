@@ -56,6 +56,7 @@ jobs:
             -DCMAKE_CXX_STANDARD=17 \
             -DCMAKE_CXX_FLAGS="-DTORRENT_HAVE_MMAP=0 -DNDEBUG" \
             -DBOOST_ROOT="$ROOT/work/boost_1_86_0" \
+            -DBoost_INCLUDE_DIR="$ROOT/work/boost_1_86_0" \
             -DBoost_NO_SYSTEM_PATHS=ON \
             -DOPENSSL_ROOT_DIR="$ROOT/work/openssl-ios" \
             -DOPENSSL_INCLUDE_DIR="$ROOT/work/openssl-ios/include" \
